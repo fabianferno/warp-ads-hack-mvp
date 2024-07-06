@@ -6,11 +6,10 @@ async function GET(req: Request): Promise<Response> {
 
 async function POST(req: Request): Promise<Response> {
   const secret = req.queries?.key;
-  // if (!secret) {
-  //     const result = {error: 'Error: MISSING VAULT KEY!'}
-  //     return new Response(JSON.stringify(result))
-  // }
-  const mbdApiKey = req.secret?.mbdApiKey as string;
+  if (!secret) {
+    const result = { error: "Error: MISSING VAULT KEY!" };
+    return new Response(JSON.stringify(result));
+  }
   const body = await req.json();
   let result;
   console.log(body);
@@ -22,7 +21,7 @@ async function POST(req: Request): Promise<Response> {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          "X-Api-Key": `${mbdApiKey}`,
+          "X-Api-Key": `mbd-028f111dcf6a58416b90eca26ce47723f02df2efa0c88ee87722b33c85c6034a`,
         },
         body: JSON.stringify({
           text_inputs: [JSON.stringify(body)],
@@ -37,7 +36,7 @@ async function POST(req: Request): Promise<Response> {
   }
 
   console.log(JSON.stringify(result.body));
-  return new Response(result);
+  return new Response(JSON.stringify(result));
 }
 
 export default async function main(request: string) {
