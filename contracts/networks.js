@@ -20,6 +20,7 @@ const networks = {
     confirmations: 3,
     nativeCurrencySymbol: "ETH",
     oracleAttestor: "0x738ad0358a6b9d419e7f95d8d46619e81b8afea1",
+    consumerAddress: "0x1eba83975bb26c3f13fb4aced748550a29f0bb1b",
   },
 };
 
