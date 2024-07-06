@@ -1,0 +1,56 @@
+type ad @entity {
+  "the id of the ad"
+  id: ID!
+
+  "the owner of the ad"
+  owner: Bytes!
+
+  "the metadata of the ad"
+  metadata: String
+
+  "the labels of the ad used for personlization in MBD.xyz"
+  labels: [String!]
+
+  "the price paid by the user"
+  pricePaid: BigInt
+
+  "the status of the ad creation"
+  errorCode: BigInt
+}
+
+type user @entity {
+  "the id of the user"
+  id: ID!
+
+  "the address of the user"
+  address: Bytes!
+
+  "the farcaster id of the user"
+  farcasterId: BigInt
+
+  "the claims of the user"
+  claims: [claim!]! @derivedFrom(field: "claimer")
+
+  "total amount claimed"
+  totalClaimedAmount: BigInt!
+
+  "the last time the user claimed warpAds revenue"
+  lastClaimedTimestamp: BigInt!
+}
+
+type claim @entity {
+  "the id of the claim"
+  id: ID!
+
+  "the claimer of the claim"
+  claimer: user!
+
+  "the url of the frame"
+  frameUrl: String
+
+  "the gameweek of the prediction"
+  amount: BigInt
+
+  "the status of the oracle"
+  errorCode: BigInt
+}
