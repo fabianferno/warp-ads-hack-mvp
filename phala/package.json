@@ -9,7 +9,7 @@
   "scripts": {
     "compile": "hardhat compile",
     "clean": "hardhat clean",
-    "test-deploy": "hardhat run --network mumbai ./scripts/mumbai/deploy.ts",
+    "test-deploy": "hardhat run --network baseSepolia ./scripts/base/deploy.ts",
     "main-deploy": "hardhat run --network polygon ./scripts/polygon/deploy.ts",
     "test-set-attestor": "hardhat run --network mumbai ./scripts/mumbai/set-attestor.ts",
     "main-set-attestor": "hardhat run --network polygon ./scripts/polygon/set-attestor.ts",
