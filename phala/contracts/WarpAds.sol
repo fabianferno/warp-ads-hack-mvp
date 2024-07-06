@@ -4,6 +4,9 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@phala/solidity/contracts/PhatRollupAnchor.sol";
 
+error InsufficentFeeToCreateAd(uint256 providedAmount, uint256 minimumAmount);
+
+
 contract WarpAds is PhatRollupAnchor, Ownable {
 
     struct AdsRequest {
@@ -19,6 +22,12 @@ contract WarpAds is PhatRollupAnchor, Ownable {
         uint256 pricePaid;
         address creator;
         string metadata;
+    }
+
+    struct ClaimsRequest{
+        uint256 farcasterId;
+        address claimer;
+        string frameUrl;
     }
 
     struct Claims{
@@ -39,14 +48,14 @@ contract WarpAds is PhatRollupAnchor, Ownable {
         WARP_ADS_API_ERROR
     }
 
-    event CreateAdRequested(uint256 reqId, string query);
+    event CreateAdRequested(uint256 requestId, string query);
     event AdCreated(uint256 adId, string metadata, string[] labels, uint256 price);
-    event AuthorRoyaltiesRequested(uint256 adId, uint256 farcasterId, address claimer);
-    event AuthorRoyaltiesDispersed(uint256 adId, uint256 farcasterId, address claimer, uint256 amount);
-    event AuthorRoyaltiesRequestFailed(uint256 adId, uint256 farcasterId, address claimer, uint8 errorCode);
-    event InfluencerRoyaltiesRequested(uint256 adId, uint256 farcasterId, address claimer);
-    event InfluencerRoyaltiesDispersed(uint256 adId, uint256 farcasterId, address claimer, uint256 amount);
-    event InfluencerRoyaltiesRequestFailed(uint256 adId, uint256 farcasterId, address claimer, uint8 errorCode);
+    event AuthorRoyaltiesRequested(uint256 requestId, string frameUrl, uint256 farcasterId, address claimer);
+    event AuthorRoyaltiesDispersed(uint256 requestId, uint256 amount);
+    event AuthorRoyaltiesRequestFailed(uint256 requestId, uint8 errorCode);
+    event InfluencerRoyaltiesRequested(uint256 requestId, uint256 farcasterId, address claimer);
+    event InfluencerRoyaltiesDispersed(uint256 requestId, uint256 amount);
+    event InfluencerRoyaltiesRequestFailed(uint256 adId, uint8 errorCode);
 
     event PhalaRequestSent(uint reqId, bytes request);
     event PhalaResponseReceived(uint reqId, string request, bytes response);
@@ -56,6 +65,9 @@ contract WarpAds is PhatRollupAnchor, Ownable {
 
     mapping(uint256=>AdsRequest) public createAdsRequests;
     mapping(uint256=>Ad) public ads;
+    uint256 public adId;
+    uint256 public claimId;
+    mapping(uint256=>ClaimsRequest) public claimsRequests;
     mapping(uint256=>Claims) public claims;
 
     mapping(uint => string) requests;
@@ -64,6 +76,71 @@ contract WarpAds is PhatRollupAnchor, Ownable {
     constructor(address phatAttestor, uint256 basePrice) {
         // _grantRole(PhatRollupAnchor.ATTESTOR_ROLE, phatAttestor);
         BASE_PRICE = basePrice;
+    }
+
+    function createAd(string calldata query, string memory inputMetadata, string[] memory labels) public payable {
+        if(msg.value < BASE_PRICE){
+            revert InsufficentFeeToCreateAd(msg.value, BASE_PRICE);
+        }
+        uint256 _bumpPrice= msg.value - BASE_PRICE;
+        createAdsRequests[adId] = AdsRequest(query, msg.sender, inputMetadata, labels, _bumpPrice);
+        // Make Phala Network request 
+        emit CreateAdRequested(adId, query);
+        adId += 1;
+      //  // uint256 reqId = _request(query);
+      //  // createAdsRequests[reqId] = AdsRequest(query, msg.sender, inputMetadata, labels, price);
+    }
+
+    function createAdCallback(uint256 _createAdRequestId, string memory metadata) public {
+        AdsRequest memory req = createAdsRequests[_createAdRequestId];
+        ads[_createAdRequestId] = Ad(req.labels, req.pricePaid, req.creator, metadata);
+        emit AdCreated(_createAdRequestId, metadata, req.labels, req.pricePaid);
+    }
+
+    function claimAuthorRoyalties(string memory frameUrl, uint256 farcasterId) public {
+        claimsRequests[claimId] = ClaimsRequest(farcasterId, msg.sender, frameUrl);
+        // Make Phala Request
+        emit AuthorRoyaltiesRequested(claimId, frameUrl, farcasterId, msg.sender);
+        claimId += 1;
+    }
+
+    function claimInfluencerRoyalties(uint256 farcasterId) public {
+        claims[claimId] = Claims(farcasterId, msg.sender, 0, block.timestamp);
+        // Make Phala Request
+        emit InfluencerRoyaltiesRequested(claimId, farcasterId, msg.sender);
+        claimId += 1;
+    }
+
+    function claimAuthorRoyaltiesCallback(uint256 _claimId, uint256 amount, uint8 errorCode) public {
+        ClaimsRequest memory _claimRequest = claimsRequests[_claimId];
+        if(errorCode == 0){
+            payable(_claimRequest.claimer).transfer(amount);
+            if(claims[_claimId].lastClaimedTimestamp == 0){
+                claims[_claimId]=Claims(_claimRequest.farcasterId, _claimRequest.claimer, amount, block.timestamp);
+            }else{
+                claims[_claimId].totalClaimed += amount;
+                claims[_claimId].lastClaimedTimestamp = block.timestamp;
+            }
+            emit AuthorRoyaltiesDispersed(_claimId, amount);
+        } else {
+            emit AuthorRoyaltiesRequestFailed(_claimId, errorCode);
+        }
+    }
+
+    function claimInfluencerRoyaltiesCallback(uint256 _claimId,  uint256 amount, uint8 errorCode) public {
+       ClaimsRequest memory _claimRequest = claimsRequests[_claimId];
+        if(errorCode == 0){
+            payable(_claimRequest.claimer).transfer(amount);
+            if(claims[_claimId].lastClaimedTimestamp == 0){
+                claims[_claimId]=Claims(_claimRequest.farcasterId, _claimRequest.claimer, amount, block.timestamp);
+            }else{
+                claims[_claimId].totalClaimed += amount;
+                claims[_claimId].lastClaimedTimestamp = block.timestamp;
+            }
+            emit InfluencerRoyaltiesDispersed(_claimId, amount);
+        } else {
+            emit InfluencerRoyaltiesRequestFailed(_claimId, errorCode);
+        }
     }
 
     function setAttestor(address phatAttestor) public {
