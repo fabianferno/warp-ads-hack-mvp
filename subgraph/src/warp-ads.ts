@@ -4,8 +4,6 @@ import {
   AuthorRoyaltiesDispersed as AuthorRoyaltiesDispersedEvent,
   AuthorRoyaltiesRequestFailed as AuthorRoyaltiesRequestFailedEvent,
   AuthorRoyaltiesRequested as AuthorRoyaltiesRequestedEvent,
-  CreateAdRequested as CreateAdRequestedEvent,
-  CreateAdRequestFailed as CreateAdRequestFailedEvent,
   EIP712DomainChanged as EIP712DomainChangedEvent,
   InfluencerRoyaltiesDispersed as InfluencerRoyaltiesDispersedEvent,
   InfluencerRoyaltiesRequestFailed as InfluencerRoyaltiesRequestFailedEvent,
@@ -22,33 +20,14 @@ import {
 } from "../generated/WarpAds/WarpAds";
 import { user as User, ad as Ad, claim as Claim } from "../generated/schema";
 
-export function handleCreateAdRequested(event: CreateAdRequestedEvent): void {
-  let ad = new Ad(event.params.requestId.toString());
-  ad.owner = event.transaction.from;
-  ad.save();
-}
-
 export function handleAdCreated(event: AdCreatedEvent): void {
-  let ad = Ad.load(event.params.adId.toString());
-  if (ad == null) {
-    ad = new Ad(event.params.adId.toString());
-  }
+  let ad = new Ad(event.params.adId.toString());
+  ad.owner = event.transaction.from;
   ad.labels = event.params.labels;
   ad.metadata = event.params.metadata;
   ad.pricePaid = event.params.price;
   ad.errorCode = BigInt.fromI32(0);
 
-  ad.save();
-}
-
-export function handleCreateAdRequestFailed(
-  event: CreateAdRequestFailedEvent
-): void {
-  let ad = Ad.load(event.params.adId.toString());
-  if (ad == null) {
-    ad = new Ad(event.params.adId.toString());
-  }
-  ad.errorCode = BigInt.fromI32(event.params.errorCode);
   ad.save();
 }
 
