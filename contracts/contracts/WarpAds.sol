@@ -57,7 +57,7 @@ contract WarpAds is PhatRollupAnchor, Ownable {
 
     event PhalaRequestSent(uint reqId, bytes request);
     event PhalaResponseReceived(uint reqId, bytes response);
-
+    
     uint constant TYPE_RESPONSE = 0;
     uint constant TYPE_ERROR = 2;
 
@@ -77,6 +77,7 @@ contract WarpAds is PhatRollupAnchor, Ownable {
     function setAttestor(address phatAttestor) public {
         _grantRole(PhatRollupAnchor.ATTESTOR_ROLE, phatAttestor);
     }
+
 
     function createAd(string memory metadata, string[] memory labels) public payable {
         if(msg.value < BASE_PRICE){
