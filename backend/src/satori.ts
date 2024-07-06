@@ -1,4 +1,4 @@
-import fs from 'fs';
+
  // @ts-ignore
  import satori from 'satori'
  import { Resvg } from '@resvg/resvg-js'
@@ -22,8 +22,8 @@ import fs from 'fs';
   'https://og-playground.vercel.app/inter-latin-ext-400-normal.woff'
 ).then((res) => res.arrayBuffer());
    const svg = await satori(template , {
-       width: 600,
-       height: 400,
+       width: 400,
+       height: 300,
        fonts: [
          {
            name: 'Roboto',
@@ -42,8 +42,6 @@ import fs from 'fs';
    const pngData = resvg.render()
    const pngBuffer = pngData.asPng()
 
-   console.info('Original SVG Size:', `${resvg.width} x ${resvg.height}`)
-   console.info('Output PNG Size  :', `${pngData.width} x ${pngData.height}`)
 
    const base64Png = pngBuffer.toString('base64');
     const dataURI = `data:image/jpeg;base64,${base64Png}`;
