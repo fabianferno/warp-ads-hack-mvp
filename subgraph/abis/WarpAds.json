@@ -160,7 +160,19 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "requestId",
+        "name": "claimId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "frameUrl",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "farcasterId",
         "type": "uint256"
       },
       {
@@ -200,24 +212,6 @@
         "internalType": "uint256",
         "name": "requestId",
         "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "frameUrl",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "farcasterId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "claimer",
-        "type": "address"
       }
     ],
     "name": "AuthorRoyaltiesRequested",
@@ -229,14 +223,27 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "requestId",
+        "name": "adId",
         "type": "uint256"
       },
       {
         "indexed": false,
-        "internalType": "string",
-        "name": "query",
-        "type": "string"
+        "internalType": "uint8",
+        "name": "errorCode",
+        "type": "uint8"
+      }
+    ],
+    "name": "CreateAdRequestFailed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "requestId",
+        "type": "uint256"
       }
     ],
     "name": "CreateAdRequested",
@@ -254,7 +261,13 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "requestId",
+        "name": "claimId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "farcasterId",
         "type": "uint256"
       },
       {
@@ -273,7 +286,7 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "adId",
+        "name": "requestId",
         "type": "uint256"
       },
       {
@@ -294,18 +307,6 @@
         "internalType": "uint256",
         "name": "requestId",
         "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "farcasterId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "claimer",
-        "type": "address"
       }
     ],
     "name": "InfluencerRoyaltiesRequested",

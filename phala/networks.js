@@ -19,7 +19,7 @@ const networks = {
     chainId: 84532,
     confirmations: 3,
     nativeCurrencySymbol: "ETH",
-    oracleAttestor: "0xd6c50fbb74fa656e08a1787272e1c902b72c73c5",
+    oracleAttestor: "0x738ad0358a6b9d419e7f95d8d46619e81b8afea1",
   },
 };
 

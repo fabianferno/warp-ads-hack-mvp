@@ -1,167 +1,53 @@
-type AdCreated @entity(immutable: true) {
-  id: Bytes!
-  adId: BigInt! # uint256
-  metadata: String! # string
-  labels: [String!]! # string[]
-  price: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+type ad @entity {
+  "the id of the ad"
+  id: ID!
+
+  "the owner of the ad"
+  owner: Bytes!
+
+  "the metadata of the ad"
+  metadata: String
+
+  "the labels of the ad used for personlization in MBD.xyz"
+  labels: [String!]
+
+  "the price paid by the user"
+  pricePaid: BigInt
+
+  "the status of the ad creation"
+  isSuccess: Boolean
 }
 
-type AuthorRoyaltiesDispersed @entity(immutable: true) {
-  id: Bytes!
-  requestId: BigInt! # uint256
-  amount: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+type user @entity {
+  "the id of the user"
+  id: ID!
+
+  "the address of the user"
+  address: Bytes!
+
+  "the farcaster id of the user"
+  farcasterId: BigInt!
+
+  "the claims of the user"
+  claims: [claim!]! @derivedFrom(field: "claimer")
+
+  "total amount claimed"
+  totalClaimedAmount: BigInt!
+
+  "the last time the user claimed warpAds revenue"
+  lastClaimedTimestamp: BigInt!
 }
 
-type AuthorRoyaltiesRequestFailed @entity(immutable: true) {
-  id: Bytes!
-  requestId: BigInt! # uint256
-  errorCode: Int! # uint8
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
+type claim @entity {
+  "the id of the claim"
+  id: ID!
 
-type AuthorRoyaltiesRequested @entity(immutable: true) {
-  id: Bytes!
-  requestId: BigInt! # uint256
-  frameUrl: String! # string
-  farcasterId: BigInt! # uint256
-  claimer: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
+  "the claimer of the claim"
+  claimer: user!
 
-type CreateAdRequested @entity(immutable: true) {
-  id: Bytes!
-  requestId: BigInt! # uint256
-  query: String! # string
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
+  "the gameweek of the prediction"
+  amount: BigInt
 
-type EIP712DomainChanged @entity(immutable: true) {
-  id: Bytes!
-
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type InfluencerRoyaltiesDispersed @entity(immutable: true) {
-  id: Bytes!
-  requestId: BigInt! # uint256
-  amount: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type InfluencerRoyaltiesRequestFailed @entity(immutable: true) {
-  id: Bytes!
-  adId: BigInt! # uint256
-  errorCode: Int! # uint8
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type InfluencerRoyaltiesRequested @entity(immutable: true) {
-  id: Bytes!
-  requestId: BigInt! # uint256
-  farcasterId: BigInt! # uint256
-  claimer: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type MessageProcessedTo @entity(immutable: true) {
-  id: Bytes!
-  param0: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type MessageQueued @entity(immutable: true) {
-  id: Bytes!
-  idx: BigInt! # uint256
-  data: Bytes! # bytes
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type MetaTxDecoded @entity(immutable: true) {
-  id: Bytes!
-
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type OwnershipTransferred @entity(immutable: true) {
-  id: Bytes!
-  previousOwner: Bytes! # address
-  newOwner: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type PhalaRequestSent @entity(immutable: true) {
-  id: Bytes!
-  reqId: BigInt! # uint256
-  request: Bytes! # bytes
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type PhalaResponseReceived @entity(immutable: true) {
-  id: Bytes!
-  reqId: BigInt! # uint256
-  request: String! # string
-  response: Bytes! # bytes
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type RoleAdminChanged @entity(immutable: true) {
-  id: Bytes!
-  role: Bytes! # bytes32
-  previousAdminRole: Bytes! # bytes32
-  newAdminRole: Bytes! # bytes32
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type RoleGranted @entity(immutable: true) {
-  id: Bytes!
-  role: Bytes! # bytes32
-  account: Bytes! # address
-  sender: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type RoleRevoked @entity(immutable: true) {
-  id: Bytes!
-  role: Bytes! # bytes32
-  account: Bytes! # address
-  sender: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+  "the status of the oracle"
+  status: OracleStatuss
 }

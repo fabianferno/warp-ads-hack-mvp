@@ -1,8 +1,8 @@
 {
   "base-sepolia": {
     "WarpAds": {
-      "address": "0x0324447C1c04119D973685581fb041E0eB17ca40",
-      "startBlock": 12251549
+      "address": "0x31a70eb8990ccc7Fdb4f96a62f5c1aa6E314C88b",
+      "startBlock": 12253279
     }
   }
 }

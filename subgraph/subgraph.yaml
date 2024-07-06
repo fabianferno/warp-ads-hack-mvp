@@ -8,9 +8,9 @@ dataSources:
     name: WarpAds
     network: base-sepolia
     source:
-      address: "0x0324447C1c04119D973685581fb041E0eB17ca40"
+      address: "0x31a70eb8990ccc7Fdb4f96a62f5c1aa6E314C88b"
       abi: WarpAds
-      startBlock: 12251549
+      startBlock: 12253279
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -40,21 +40,21 @@ dataSources:
       eventHandlers:
         - event: AdCreated(uint256,string,string[],uint256)
           handler: handleAdCreated
-        - event: AuthorRoyaltiesDispersed(uint256,uint256)
+        - event: AuthorRoyaltiesDispersed(uint256,string,uint256,uint256)
           handler: handleAuthorRoyaltiesDispersed
         - event: AuthorRoyaltiesRequestFailed(uint256,uint8)
           handler: handleAuthorRoyaltiesRequestFailed
-        - event: AuthorRoyaltiesRequested(uint256,string,uint256,address)
+        - event: AuthorRoyaltiesRequested(uint256)
           handler: handleAuthorRoyaltiesRequested
-        - event: CreateAdRequested(uint256,string)
+        - event: CreateAdRequested(uint256)
           handler: handleCreateAdRequested
         - event: EIP712DomainChanged()
           handler: handleEIP712DomainChanged
-        - event: InfluencerRoyaltiesDispersed(uint256,uint256)
+        - event: InfluencerRoyaltiesDispersed(uint256,uint256,uit256)
           handler: handleInfluencerRoyaltiesDispersed
         - event: InfluencerRoyaltiesRequestFailed(uint256,uint8)
           handler: handleInfluencerRoyaltiesRequestFailed
-        - event: InfluencerRoyaltiesRequested(uint256,uint256,address)
+        - event: InfluencerRoyaltiesRequested(uint256)
           handler: handleInfluencerRoyaltiesRequested
         - event: MessageProcessedTo(uint256)
           handler: handleMessageProcessedTo
