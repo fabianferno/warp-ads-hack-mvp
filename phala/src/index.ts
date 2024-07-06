@@ -4,22 +4,22 @@
 // *** WITH THE PHALA TEAM AT https://discord.gg/5HfmWQNX THANK YOU             ***
 // *** FOR DOCS ON HOW TO CUSTOMIZE YOUR PC 2.0 https://bit.ly/customize-pc-2-0 ***
 import "@phala/pink-env";
-import {decodeAbiParameters, encodeAbiParameters, parseAbiParameters} from "viem";
+import {
+  decodeAbiParameters,
+  encodeAbiParameters,
+  parseAbiParameters,
+} from "viem";
 
 type HexString = `0x${string}`;
-const encodeReplyAbiParams = 'uint respType, uint id, uint256 data';
-const decodeRequestAbiParams = 'uint id, string reqData';
+const encodeReplyAbiParams = "uint respType, uint id, uint256 data";
+const decodeRequestAbiParams = "uint id, string reqData";
 
 function encodeReply(abiParams: string, reply: any): HexString {
-  return encodeAbiParameters(parseAbiParameters(abiParams),
-      reply
-  );
+  return encodeAbiParameters(parseAbiParameters(abiParams), reply);
 }
 
 function decodeRequest(abiParams: string, request: HexString): any {
-  return decodeAbiParameters(parseAbiParameters(abiParams),
-      request
-  );
+  return decodeAbiParameters(parseAbiParameters(abiParams), request);
 }
 
 // Defined in OracleConsumerContract.sol
@@ -138,7 +138,11 @@ export default function main(request: HexString, secrets: string): HexString {
     console.log(`[${requestId}]: ${encodedReqStr}`);
   } catch (error) {
     console.info("Malformed request received");
-    return encodeReply(encodeReplyAbiParams, [BigInt(TYPE_ERROR), 0n, BigInt(errorToCode(error as Error))]);
+    return encodeReply(encodeReplyAbiParams, [
+      BigInt(TYPE_ERROR),
+      0n,
+      BigInt(errorToCode(error as Error)),
+    ]);
   }
   console.log(`Request received for profile ${encodedReqStr}`);
   try {
@@ -152,7 +156,11 @@ export default function main(request: HexString, secrets: string): HexString {
     } else {
       // otherwise tell client we cannot process it
       console.log("error:", [TYPE_ERROR, requestId, error]);
-      return encodeReply(encodeReplyAbiParams, [TYPE_ERROR, requestId, errorToCode(error as Error)]);
+      return encodeReply(encodeReplyAbiParams, [
+        TYPE_ERROR,
+        requestId,
+        errorToCode(error as Error),
+      ]);
     }
   }
 }

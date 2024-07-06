@@ -6,7 +6,6 @@ import "@phala/solidity/contracts/PhatRollupAnchor.sol";
 
 error InsufficentFeeToCreateAd(uint256 providedAmount, uint256 minimumAmount);
 
-
 contract WarpAds is PhatRollupAnchor, Ownable {
 
     struct AdsRequest {
@@ -73,9 +72,12 @@ contract WarpAds is PhatRollupAnchor, Ownable {
     mapping(uint => string) requests;
     uint nextRequest = 1;
 
-    constructor(address phatAttestor, uint256 basePrice) {
-        // _grantRole(PhatRollupAnchor.ATTESTOR_ROLE, phatAttestor);
+    constructor(uint256 basePrice) Ownable(msg.sender) {
         BASE_PRICE = basePrice;
+    }
+
+    function setAttestor(address phatAttestor) public {
+        _grantRole(PhatRollupAnchor.ATTESTOR_ROLE, phatAttestor);
     }
 
     function createAd(string calldata query, string memory inputMetadata, string[] memory labels) public payable {
@@ -143,9 +145,7 @@ contract WarpAds is PhatRollupAnchor, Ownable {
         }
     }
 
-    function setAttestor(address phatAttestor) public {
-        _grantRole(PhatRollupAnchor.ATTESTOR_ROLE, phatAttestor);
-    }
+
 
     function _request(string calldata reqData) internal returns(uint256) {
         uint id = nextRequest;

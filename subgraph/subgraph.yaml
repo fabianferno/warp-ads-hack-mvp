@@ -1,0 +1,77 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: WarpAds
+    network: base-sepolia
+    source:
+      address: "0x0324447C1c04119D973685581fb041E0eB17ca40"
+      abi: WarpAds
+      startBlock: 12251549
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - AdCreated
+        - AuthorRoyaltiesDispersed
+        - AuthorRoyaltiesRequestFailed
+        - AuthorRoyaltiesRequested
+        - CreateAdRequested
+        - EIP712DomainChanged
+        - InfluencerRoyaltiesDispersed
+        - InfluencerRoyaltiesRequestFailed
+        - InfluencerRoyaltiesRequested
+        - MessageProcessedTo
+        - MessageQueued
+        - MetaTxDecoded
+        - OwnershipTransferred
+        - PhalaRequestSent
+        - PhalaResponseReceived
+        - RoleAdminChanged
+        - RoleGranted
+        - RoleRevoked
+      abis:
+        - name: WarpAds
+          file: ./abis/WarpAds.json
+      eventHandlers:
+        - event: AdCreated(uint256,string,string[],uint256)
+          handler: handleAdCreated
+        - event: AuthorRoyaltiesDispersed(uint256,uint256)
+          handler: handleAuthorRoyaltiesDispersed
+        - event: AuthorRoyaltiesRequestFailed(uint256,uint8)
+          handler: handleAuthorRoyaltiesRequestFailed
+        - event: AuthorRoyaltiesRequested(uint256,string,uint256,address)
+          handler: handleAuthorRoyaltiesRequested
+        - event: CreateAdRequested(uint256,string)
+          handler: handleCreateAdRequested
+        - event: EIP712DomainChanged()
+          handler: handleEIP712DomainChanged
+        - event: InfluencerRoyaltiesDispersed(uint256,uint256)
+          handler: handleInfluencerRoyaltiesDispersed
+        - event: InfluencerRoyaltiesRequestFailed(uint256,uint8)
+          handler: handleInfluencerRoyaltiesRequestFailed
+        - event: InfluencerRoyaltiesRequested(uint256,uint256,address)
+          handler: handleInfluencerRoyaltiesRequested
+        - event: MessageProcessedTo(uint256)
+          handler: handleMessageProcessedTo
+        - event: MessageQueued(uint256,bytes)
+          handler: handleMessageQueued
+        - event: MetaTxDecoded()
+          handler: handleMetaTxDecoded
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: PhalaRequestSent(uint256,bytes)
+          handler: handlePhalaRequestSent
+        - event: PhalaResponseReceived(uint256,string,bytes)
+          handler: handlePhalaResponseReceived
+        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
+          handler: handleRoleAdminChanged
+        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleGranted
+        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleRevoked
+      file: ./src/warp-ads.ts
