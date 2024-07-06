@@ -10,6 +10,9 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { type ThemeProviderProps } from "next-themes/dist/types";
 import { baseSepolia } from "wagmi/chains";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import "@farcaster/auth-kit/styles.css";
+import { AuthKitProvider } from "@farcaster/auth-kit";
+
 const queryClient = new QueryClient();
 
 const config = getDefaultConfig({
@@ -18,6 +21,12 @@ const config = getDefaultConfig({
   chains: [baseSepolia],
   ssr: true, // If your dApp uses server side rendering (SSR)
 });
+
+const farcasterConfig = {
+  rpcUrl: "https://mainnet.optimism.io",
+  domain: "example.com",
+  siweUri: "https://example.com/login",
+};
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
@@ -42,7 +51,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <AuthKitProvider config={farcasterConfig}>
+              {children}
+            </AuthKitProvider>
           </ThemeProvider>
         </RainbowKitProvider>
       </QueryClientProvider>
