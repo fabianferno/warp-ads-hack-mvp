@@ -6,6 +6,8 @@ import { Request, Response } from "express";
 import axios from "axios";
 import { Stream } from "stream"; 
 import { JSDOM } from "jsdom";
+import { compositeAndEncodeBase64 } from "./sharp";
+import satoriFunc from "./satori";
 
 
 const app = express();
@@ -18,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
 app.get("*", async (req: Request, res: Response) => {
-  console.log(req.body)
+
   const targetUrl = "https://frames-gray.vercel.app" + req.path;
 
   try {
@@ -32,11 +34,13 @@ app.get("*", async (req: Request, res: Response) => {
       responseType: "stream",
     });
 
+
+
     try {
       // Collect the stream data into a buffer
       const chunks: any[] = [];
       response.data.on("data", (chunk: any) => chunks.push(chunk));
-      response.data.on("end", () => {
+      response.data.on("end", async() => {
         const buffer = Buffer.concat(chunks);
         const htmlContent = buffer.toString("utf8");
 
@@ -45,14 +49,32 @@ app.get("*", async (req: Request, res: Response) => {
         const metaElement = dom.window.document.querySelector(
           'meta[name="fc:frame:image"]'
         );
+        const mainUrl = metaElement?.getAttribute("content");
+        console.log("url : " , mainUrl)
+
+    const mainImageUrl ="https://www.fabianferno.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fportrait.a4345096.png&w=640&q=75"
+    const coloredBarColor = 'blue';
+// const addContent = `
+//   <div style="width: 100%; height: 100%; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center;">
+//     <p style="font-size: 24px; color: #333;">This is an example HTML content.</p>
+//   </div>
+// `;
+// const addContent = `
+// <img src="https://via.placeholder.com/400x100.png?text=Placeholder+Image" alt="Park" style="width: 100%; height: 100%;">
+// `
+//     const imageUrl = await compositeAndEncodeBase64({ mainImageUrl, addContent });
+
+    const satoriImg = await satoriFunc(mainImageUrl,"https://via.placeholder.com/400x100.png?text=Placeholder+Image");
+    console.log(satoriImg)
+
 
         if (metaElement) {
           metaElement.setAttribute(
             "content",
-            "https://www.fabianferno.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fportrait.a4345096.png&w=640&q=75"
-          ); // Modify the content as needed
+            // "https://www.fabianferno.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fportrait.a4345096.png&w=640&q=75"
+            satoriImg
+          ); 
         }
-        console.log(metaElement?.getAttribute("content"));
 
         // Serialize the modified HTML back to a string
         const modifiedHtml = dom.serialize();
