@@ -21,6 +21,7 @@ dataSources:
         - AuthorRoyaltiesRequestFailed
         - AuthorRoyaltiesRequested
         - CreateAdRequested
+        - CreateAdRequestFailed
         - EIP712DomainChanged
         - InfluencerRoyaltiesDispersed
         - InfluencerRoyaltiesRequestFailed
@@ -48,9 +49,11 @@ dataSources:
           handler: handleAuthorRoyaltiesRequested
         - event: CreateAdRequested(uint256)
           handler: handleCreateAdRequested
+        - event: CreateAdRequestFailed(uint256,uint8)
+          handler: handleCreateAdRequestFailed
         - event: EIP712DomainChanged()
           handler: handleEIP712DomainChanged
-        - event: InfluencerRoyaltiesDispersed(uint256,uint256,uit256)
+        - event: InfluencerRoyaltiesDispersed(uint256,uint256,uint256)
           handler: handleInfluencerRoyaltiesDispersed
         - event: InfluencerRoyaltiesRequestFailed(uint256,uint8)
           handler: handleInfluencerRoyaltiesRequestFailed

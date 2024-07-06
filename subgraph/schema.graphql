@@ -15,7 +15,7 @@ type ad @entity {
   pricePaid: BigInt
 
   "the status of the ad creation"
-  isSuccess: Boolean
+  errorCode: BigInt
 }
 
 type user @entity {
@@ -26,7 +26,7 @@ type user @entity {
   address: Bytes!
 
   "the farcaster id of the user"
-  farcasterId: BigInt!
+  farcasterId: BigInt
 
   "the claims of the user"
   claims: [claim!]! @derivedFrom(field: "claimer")
@@ -45,9 +45,12 @@ type claim @entity {
   "the claimer of the claim"
   claimer: user!
 
+  "the url of the frame"
+  frameUrl: String
+
   "the gameweek of the prediction"
   amount: BigInt
 
   "the status of the oracle"
-  status: OracleStatuss
+  errorCode: BigInt
 }
