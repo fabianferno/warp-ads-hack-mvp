@@ -6,10 +6,8 @@ import { WARP_ADS_ABI, WARP_ADS_ADDRESS } from "@/lib/constants";
 import { useAccount } from "wagmi";
 
 const BuyAd = ({ fid }: { fid: number }) => {
-  const [title, setTitle] = useState<string>("Build on NEAR");
-  const [description, setDescription] = useState<string>(
-    "NEAR offers grants for projects that build on NEAR"
-  );
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
   const [labels, setLabels] = useState<string[]>([]);
   const [logoSVG, setLogoSVG] = useState<string | null>(null);
   const { address } = useAccount();
@@ -27,7 +25,6 @@ const BuyAd = ({ fid }: { fid: number }) => {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            defaultValue="Build on NEAR"
             className="mt-1 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
           />
         </div>
@@ -40,7 +37,6 @@ const BuyAd = ({ fid }: { fid: number }) => {
             type="text"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            defaultValue="NEAR offers grants for projects that build on NEAR"
             className="mt-1 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
           />
         </div>
@@ -55,7 +51,7 @@ const BuyAd = ({ fid }: { fid: number }) => {
 
         <GenerateLabels
           setLabels={setLabels}
-          metadata={{ title, description }}
+          metadata={{ title: title, description: description }}
         />
 
         <button
