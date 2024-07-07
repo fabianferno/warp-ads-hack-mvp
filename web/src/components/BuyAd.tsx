@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import GenerateLabels from "./GenerateLabels";
+
 const BuyAd = ({ fid }: { fid: number }) => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -10,7 +11,7 @@ const BuyAd = ({ fid }: { fid: number }) => {
 
   return (
     <div className="w-full max-w-xl p-4 bg-white mx-auto dark:bg-black rounded-lg shadow-md">
-      <div className="flex items-center space-x-2 flex-col gap-4 justify-center text-center">
+      <div className="flex items-center space-x-2 flex-col gap-4 justify-center text-center w-full">
         <div className="w-full">
           <label htmlFor="">Title</label>
           <input
