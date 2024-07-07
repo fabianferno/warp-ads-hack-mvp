@@ -156,6 +156,7 @@ contract WarpAds is PhatRollupAnchor, Ownable {
                 claims[_claimRequest.farcasterId].totalClaimed += _amount;
                 claims[_claimRequest.farcasterId].lastClaimedTimestamp = block.timestamp;
             }
+            payable(_claimRequest.claimer).transfer(_amount);
             if(bytes(_claimRequest.frameUrl).length > 0)
                 emit AuthorRoyaltiesDispersed(_claimId, _claimRequest.frameUrl, _claimRequest.farcasterId, _amount);
             else 

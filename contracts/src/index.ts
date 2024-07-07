@@ -45,11 +45,6 @@ export default function main(request: HexString, secrets: string): HexString {
       decodeRequestAbiParams,
       request
     );
-    console.log("GAMEEE Request decoded successfully");
-    console.log(claimId);
-    console.log(claimer);
-    console.log(frameUrl);
-    console.log(farcasterId);
   } catch (error) {
     // Handle any errors that occur during decoding or processing
     console.info("Malformed request received");
@@ -57,7 +52,6 @@ export default function main(request: HexString, secrets: string): HexString {
   }
 
   try {
-    console.log("WORKESS NOWW");
     // Batch HTTP request to fetch data from Airstack and rewards service
     let response = pink.batchHttpRequest(
       [
@@ -104,9 +98,6 @@ export default function main(request: HexString, secrets: string): HexString {
       ],
       10000 // Timeout of 10 seconds
     );
-
-    console.log("NIGkjndskjfnsvdklnca API call susccessful");
-    console.log(response);
 
     // Check the response status codes and handle errors
     if (response[1].statusCode !== 200) {
