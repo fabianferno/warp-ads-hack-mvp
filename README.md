@@ -2,6 +2,9 @@
 
 WarpAds is an open display ads protocol for Farcaster, analogous to the prominence of Facebook ads. This innovative platform allows users to convert any existing Farcaster frames into a WarpAds Frame (an ad-embedded frame) and relay the frame requests to the original server without requiring any changes on the server. 
 
+![WarpAds Demo](https://github.com/fabianferno/warp-ads/assets/94560875/87895b00-445a-4a0a-90af-112721804d97)
+
+
 **How It Works:**
 - **For Influencers:** Influencers on Farcaster can create a WarpAds URL for popular frames they curate and start casting on WarpCast. As these frames are used by many people, higher click-through rates generate more revenue for influencers. The rendered WarpAds URL displays the original frame along with an embedded advertisement.
 - **Ad Creation and Personalization:** Anyone can create ads on the platform, which are labeled using Phala's AI coprocessor. These labels are utilized by MBD's content moderation APIs to offer personalized ads to users viewing a WarpAds frame.
