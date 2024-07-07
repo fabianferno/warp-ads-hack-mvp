@@ -41,7 +41,7 @@ const GenerateLabels = ({
   return (
     <div className="w-full max-w-xl p-4 bg-white mx-auto dark:bg-black rounded-lg shadow-md">
       <div className="mt-6 text-center">Labels</div>
-      <div className="mt-2 text-violet-600 break-all dark:text-violet-400">
+      <div className="mt-2 text-violet-600 dark:text-violet-400 flex">
         {generatedLabels.join(", ")}
       </div>
 
