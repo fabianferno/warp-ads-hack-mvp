@@ -12,7 +12,7 @@ WarpAds is an open display ads protocol for Farcaster, analogous to the prominen
 
 This streamlined and efficient approach ensures that influencers and frame creators can monetize their content seamlessly while providing advertisers with a robust platform for targeted advertising.
 
-**Fleek Functions**
+### Fleek Functions :
 - **Relayer:** The relayer is deployed on Fleek Functions. It relays your frame URL with embedded ads.
 
 - **Analytics:**A Fleek Function is deployed to calculate the analytics (clicks and views) of the ad-embedded frame via pinata frame analytics.
