@@ -1,11 +1,20 @@
 import { useEffect, useState } from "react";
+import { useProfile } from "@farcaster/auth-kit";
+import { useAccount } from "wagmi";
 
 const WarpAdsForm = ({ fid }: { fid: number }) => {
   const [url, setUrl] = useState("https://mint.farcaster.xyz/");
   const [warpAdsUrl, setWarpAdsUrl] = useState<string | null>(null);
+  const {
+    isAuthenticated,
+    profile: { username },
+  } = useProfile();
+  const account = useAccount();
 
   useEffect(() => {
-    const encodedUrl = btoa(JSON.stringify({ url, fid }));
+    if (!account?.address) return;
+    if (!url) return;
+    const encodedUrl = btoa(JSON.stringify({ url, address: account?.address }));
     setWarpAdsUrl(`https://warpads.xyz/${encodedUrl}`);
   }, [url]);
 
@@ -22,10 +31,10 @@ const WarpAdsForm = ({ fid }: { fid: number }) => {
           Generate
         </button>
       </div>
-      {warpAdsUrl && (
+      {warpAdsUrl && username && (
         <div className="mt-6 text-center">
           <p className="text-lg font-semibold dark:text-gray-200">
-            Hey @gabrielaxy.eth
+            Hey @{username}
           </p>
           <p className="mt-2 dark:text-gray-200">
             This is your WarpAds URL for the frame
