@@ -10,10 +10,11 @@ const GenerateLabels = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [generatedLabels, setGeneratedLabels] = useState<string[]>([]);
-  // TODO: Make a call to phala Agent and return the labels for given metadata
 
   async function generateLabels(setLabels: any) {
     setLoading(true);
+    console.log("METADATA");
+    console.log(metadata);
     fetch("/api/proxy", {
       method: "POST",
       headers: {

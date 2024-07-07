@@ -6,6 +6,7 @@ export async function HEAD(request: Request) {}
 
 export async function POST(request: Request) {
   try {
+    const metadata = await request.json();
     const response = await fetch(
       "https://agents.phala.network/ipfs/bafybeid7aiwj3y2o2zgiro2zeg3xqvp6nbbcivgnidbdohyi3x5lqxgwiu/0",
       {
@@ -13,7 +14,7 @@ export async function POST(request: Request) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(request.body), // Forward the body from the original request
+        body: JSON.stringify(metadata), // Forward the body from the original request
       }
     );
 
