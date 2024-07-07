@@ -57,7 +57,7 @@ const GenerateLabels = ({
             <img
               height={20}
               width={20}
-              className="h-10 w-10 rounded-full"
+              className="h-5 w-5 rounded-full"
               src="https://s2.coinmarketcap.com/static/img/coins/200x200/6841.png"
               alt="phala logo"
             />
