@@ -81,7 +81,7 @@ export default function main(request: HexString, secrets: string): HexString {
           returnTextBody: true,
         },
         {
-          url: `https://dummyjson.com/c/3664-b444-4e42-8cc1`,
+          url: `https://fleek-test.network/services/1/ipfs/bafybeigvr5nybc77avfa2ikrangympqv75vfh7ax2cprtdcrfoobqmwpxe`,
           method: "POST",
           headers: {
             "Content-Type": "application/json",
