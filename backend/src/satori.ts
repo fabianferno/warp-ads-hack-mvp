@@ -9,19 +9,25 @@
    return html(...args);
  }
 
-  export default async function satoriFunc( frameImg : string , addImg: string , desc : string) {
+  export default async function satoriFunc( frameImg : string , addImg: string , desc : string , title : string) {
    const template = await html(`
      <div style="font-family: Roboto; display: flex; flex-direction: column; font-size: 24px; color: #000000; width:100%; height:100%;">
         <img src=${frameImg} alt="Park" style="width: 100%; height: 80%; ">
         <div style="display : flex; align-self : center; gap:30px">
         <img src=${addImg} alt="Park" style="width: 50px; height: 50px; border-radius : 50% ;margin-top:7px">
+        <div style="display :flex ;flex-direction: column;">
          <p style="font-size: 10px; align-self: center; max-width: 180px; display: flex; white-space: pre-wrap; word-wrap: break-word;">
     ${desc}
 </p>
         </div>
+        
+        </div>
      </div>
    `)
 
+//             <p style="font-size: 10px; align-self: center; max-width: 180px; display: flex; white-space: pre-wrap; word-wrap: break-word;">
+//     ${title}
+// </p>
 
    const inter = fetch(
   'https://og-playground.vercel.app/inter-latin-ext-400-normal.woff'
