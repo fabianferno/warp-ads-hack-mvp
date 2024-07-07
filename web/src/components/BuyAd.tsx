@@ -6,8 +6,10 @@ import { WARP_ADS_ABI, WARP_ADS_ADDRESS } from "@/lib/constants";
 import { useAccount } from "wagmi";
 
 const BuyAd = ({ fid }: { fid: number }) => {
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
+  const [title, setTitle] = useState<string>("Build on NEAR");
+  const [description, setDescription] = useState<string>(
+    "NEAR offers grants for projects that build on NEAR"
+  );
   const [labels, setLabels] = useState<string[]>([]);
   const [logoSVG, setLogoSVG] = useState<string | null>(null);
   const { address } = useAccount();
