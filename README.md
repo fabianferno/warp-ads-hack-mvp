@@ -1,6 +1,6 @@
 ### WarpAds - open ad protocol for farcaster
 
-WarpAds is an open display ads protocol for Farcaster, analogous to the prominence of Facebook ads. This innovative platform allows users to convert any existing Farcaster frames into a WarpAds Frame (an ad-embedded frame) and relay the frame requests to the original server without requiring any changes on the server. 
+WarpAds is an open display ads protocol for Farcaster, analogous to the prominence of Facebook ads. This innovative platform allows users to convert any existing Farcaster frames into a WarpAds Frame (an ad-embedded frame) and relay the frame requests to the original server without requiring any changes on the server.
 
 ![WarpAds Demo](https://github.com/fabianferno/warp-ads/assets/94560875/87895b00-445a-4a0a-90af-112721804d97)
 
@@ -23,3 +23,9 @@ This streamlined and efficient approach ensures that influencers and frame creat
 - **MBD:** Content moderation for personalized ads.
 - **Deployment:** Deployed on Base Sepolia.
 - **Development Stack:** Built on NodeJS, Express, Next.js, Solidity, and TypeScript.
+
+
+Made with luv by
+- Fabian Ferno, Founder & PM
+- Gabriel Xaviour - Blockchain Engineer
+- Leo Franklin - Backend Engineer
