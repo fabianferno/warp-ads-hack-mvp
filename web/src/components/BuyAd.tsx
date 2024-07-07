@@ -23,6 +23,8 @@ const BuyAd = ({ fid }: { fid: number }) => {
           <label htmlFor="">Title</label>
           <input
             type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             defaultValue="Build on NEAR"
             className="mt-1 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
           />
@@ -34,6 +36,8 @@ const BuyAd = ({ fid }: { fid: number }) => {
           </label>
           <input
             type="text"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             defaultValue="NEAR offers grants for projects that build on NEAR"
             className="mt-1 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
           />
