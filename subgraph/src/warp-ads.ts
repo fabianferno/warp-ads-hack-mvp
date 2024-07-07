@@ -54,6 +54,7 @@ export function handleAuthorRoyaltiesDispersed(
   let claim = Claim.load(event.params.claimId.toString());
   if (claim == null) {
     claim = new Claim(event.params.claimId.toString());
+    claim.claimer = event.transaction.from.toString();
   }
   claim.amount = event.params.amount;
   claim.frameUrl = event.params.frameUrl;
@@ -104,6 +105,7 @@ export function handleInfluencerRoyaltiesDispersed(
   let claim = Claim.load(event.params.claimId.toString());
   if (claim == null) {
     claim = new Claim(event.params.claimId.toString());
+    claim.claimer = event.transaction.from.toString();
   }
   claim.amount = event.params.amount;
   claim.errorCode = BigInt.fromI32(0);

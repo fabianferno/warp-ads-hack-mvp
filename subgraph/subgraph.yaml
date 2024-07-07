@@ -10,7 +10,7 @@ dataSources:
     source:
       address: "0x1eba83975bb26c3f13fb4aced748550a29f0bb1b"
       abi: WarpAds
-      startBlock: 12263776
+      startBlock: 12290242
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
