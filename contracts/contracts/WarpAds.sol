@@ -78,6 +78,9 @@ contract WarpAds is PhatRollupAnchor, Ownable {
         _grantRole(PhatRollupAnchor.ATTESTOR_ROLE, phatAttestor);
     }
 
+    receive() external payable {}
+    fallback() external payable {}
+
 
     function createAd(string memory metadata, string[] memory labels) public payable {
         if(msg.value < BASE_PRICE){

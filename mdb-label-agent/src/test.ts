@@ -25,14 +25,9 @@ async function test() {
   });
   console.log("POST RESULT:", JSON.parse(postResult));
 
-  const labels = JSON.parse(postResult).body.body[0];
-  console.log("All Labels");
-  console.log(labels);
+  const labels = JSON.parse(postResult);
   console.log("Sorted Labels");
-  labels.sort((a: any, b: any) => b.score - a.score);
-  console.log(labels);
-  console.log("Top 5 Labels");
-  console.log(labels.slice(0, 5));
+  console.log(JSON.parse(labels.body));
 
   const testArgsString = JSON.stringify({
     method: "POST",

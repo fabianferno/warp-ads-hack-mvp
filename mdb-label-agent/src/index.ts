@@ -5,11 +5,6 @@ async function GET(req: Request): Promise<Response> {
 }
 
 async function POST(req: Request): Promise<Response> {
-  const secret = req.queries?.key;
-  if (!secret) {
-    const result = { error: "Error: MISSING VAULT KEY!" };
-    return new Response(JSON.stringify(result));
-  }
   const body = await req.json();
   let result;
   console.log(body);
@@ -34,9 +29,17 @@ async function POST(req: Request): Promise<Response> {
     console.error("Error fetching chat completion:", error);
     result = { error };
   }
-
+  console.log("NIGGGAA");
   console.log(JSON.stringify(result.body));
-  return new Response(JSON.stringify(result));
+  const labels = result.body[0];
+
+  console.log(labels);
+  console.log("Sorted Labels");
+  labels.sort((a: any, b: any) => b.score - a.score);
+  console.log(labels);
+  console.log("Top 5 Labels");
+  console.log(labels.slice(0, 5));
+  return new Response(JSON.stringify(labels.slice(0, 5)));
 }
 
 export default async function main(request: string) {

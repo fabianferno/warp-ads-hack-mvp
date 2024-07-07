@@ -26,42 +26,12 @@ function decodeRequest(abiParams: string, request: HexString): any {
   return decodeAbiParameters(parseAbiParameters(abiParams), request);
 }
 
-// Function to create a query for fetching rewards
-function fetchRewardsQuery(farcasterId: string, frameUrl: string): any {
-  return {
-    url: `https://mocki.io/v1/b26c3766-4f0f-4246-9888-fc670752bf4f?farcasterId=${farcasterId}&frameUrl=${frameUrl}`,
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    returnTextBody: true,
-  };
-}
-
-// Function to create a query for fetching data from Airstack
-function fetchAirstackQuery(airstackApiKey: string, claimer: string): any {
-  return {
-    url: "https://api.airstack.xyz/graphql",
-    method: "POST",
-    headers: {
-      Authorization: airstackApiKey,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      query: `
-        query MyQuery {
-          Socials(
-            input: {filter: {dappName: {_eq: farcaster}, identity: {_eq: "${claimer}"}}, blockchain: ethereum}
-          ) {
-            Social {
-              userId
-            }
-          }
-        }
-      `,
-    }),
-    returnTextBody: true,
-  };
+function stringToHex(str: string): string {
+  var hex = "";
+  for (var i = 0; i < str.length; i++) {
+    hex += str.charCodeAt(i).toString(16);
+  }
+  return "0x" + hex;
 }
 
 // Main function that handles the request and generates a response
@@ -75,15 +45,68 @@ export default function main(request: HexString, secrets: string): HexString {
       decodeRequestAbiParams,
       request
     );
+    console.log("GAMEEE Request decoded successfully");
+    console.log(claimId);
+    console.log(claimer);
+    console.log(frameUrl);
+    console.log(farcasterId);
+  } catch (error) {
+    // Handle any errors that occur during decoding or processing
+    console.info("Malformed request received");
+    return encodeReply(encodeReplyAbiParams, [BigInt(claimId), 0n, 1n]);
+  }
 
+  try {
+    console.log("WORKESS NOWW");
     // Batch HTTP request to fetch data from Airstack and rewards service
     let response = pink.batchHttpRequest(
       [
-        fetchAirstackQuery(secrets, claimer),
-        fetchRewardsQuery(farcasterId.toString(), frameUrl),
+        {
+          url: "https://api.airstack.xyz/graphql",
+          method: "POST",
+          headers: {
+            Authorization: secrets,
+            "Content-Type": "application/json",
+            "User-Agent": "phat-contract",
+          },
+          body: stringToHex(
+            JSON.stringify({
+              query: `
+              query MyQuery {
+                Socials(
+                  input: {filter: {dappName: {_eq: farcaster}, identity: {_eq: "${claimer}"}}, blockchain: ethereum}
+                ) {
+                  Social {
+                    userId
+                  }
+                }
+              }
+            `,
+            })
+          ),
+          returnTextBody: true,
+        },
+        {
+          url: `https://dummyjson.com/c/3664-b444-4e42-8cc1`,
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "User-Agent": "phat-contract",
+          },
+          body: stringToHex(
+            JSON.stringify({
+              farcasterId: farcasterId.toString(),
+              frameUrl: frameUrl,
+            })
+          ),
+          returnTextBody: true,
+        },
       ],
       10000 // Timeout of 10 seconds
     );
+
+    console.log("NIGkjndskjfnsvdklnca API call susccessful");
+    console.log(response);
 
     // Check the response status codes and handle errors
     if (response[1].statusCode !== 200) {
@@ -116,13 +139,11 @@ export default function main(request: HexString, secrets: string): HexString {
       // Encode a successful reply with the claim ID, fetched revenue, and no error
       return encodeReply(encodeReplyAbiParams, [
         BigInt(claimId),
-        fetchedRevenue,
+        BigInt(fetchedRevenue),
         0n,
       ]);
     }
   } catch (error) {
-    // Handle any errors that occur during decoding or processing
-    console.info("Malformed request received");
     return encodeReply(encodeReplyAbiParams, [BigInt(claimId), 0n, 1n]);
   }
 }
