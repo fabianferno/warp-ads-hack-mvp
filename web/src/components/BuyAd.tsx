@@ -1,11 +1,18 @@
 import { useEffect, useState } from "react";
 import GenerateLabels from "./GenerateLabels";
+import { createPublicClient, createWalletClient, custom, http } from "viem";
+import { baseSepolia } from "viem/chains";
+import { WARP_ADS_ABI, WARP_ADS_ADDRESS } from "@/lib/constants";
+import { useAccount } from "wagmi";
 
 const BuyAd = ({ fid }: { fid: number }) => {
+  const { address } = useAccount();
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [labels, setLabels] = useState<string[]>([]);
   const [logoSVG, setLogoSVG] = useState<string | null>(null);
+
+  const [txHash, setTxHash] = useState<string>("");
 
   useEffect(() => {}, []);
 
@@ -45,9 +52,41 @@ const BuyAd = ({ fid }: { fid: number }) => {
           metadata={{ title, description }}
         />
 
-        <button className="px-4 py-2 font-bold text-white bg-violet-400 rounded-lg hover:bg-violet-500 dark:bg-violet-400 dark:hover:bg-violet-500">
+        <button
+          onClick={async () => {
+            const walletClient = createWalletClient({
+              chain: baseSepolia,
+              transport: custom(window.ethereum!),
+              account: address,
+            });
+            const publicClient = createPublicClient({
+              chain: baseSepolia,
+              transport: http(
+                `https://base-sepolia.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+              ),
+            });
+            const { request } = await publicClient.simulateContract({
+              address: WARP_ADS_ADDRESS as `0x${string}`,
+              abi: WARP_ADS_ABI,
+              functionName: "createAd",
+              args: [JSON.stringify({ title, description }), labels],
+              value: BigInt(100000000),
+              account: address as `0x${string}`,
+            });
+            const tx = await walletClient.writeContract(request);
+            console.log(tx);
+            setTxHash(tx);
+          }}
+          className="px-4 py-2 font-bold text-white bg-violet-400 rounded-lg hover:bg-violet-500 dark:bg-violet-400 dark:hover:bg-violet-500"
+        >
           Buy an Ad
         </button>
+        {txHash.length > 0 && (
+          <div className="my-4 text-center">
+            <p className="font-semibold">Tx Sent ✅</p>
+            <p className="text-sm">{txHash}</p>
+          </div>
+        )}
       </div>
     </div>
   );
