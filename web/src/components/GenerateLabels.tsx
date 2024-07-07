@@ -51,9 +51,16 @@ const GenerateLabels = ({
         ) : (
           <button
             onClick={handleGenerateLabels}
-            className="px-4 py-2 font-bold text-white bg-zinc-400 rounded-lg hover:bg-violet-500 dark:bg-zinc-800 dark:hover:bg-zinc-700"
+            className="px-4 flex items-center justify-between gap-2 py-2 font-bold text-white bg-zinc-400 rounded-xl hover:bg-violet-500 dark:bg-zinc-800 dark:hover:bg-zinc-700"
           >
-            Generate Labels using AI
+            Generate Labels using Phala AI{" "}
+            <img
+              height={20}
+              width={20}
+              className="h-5 w-5 rounded-full"
+              src="https://s2.coinmarketcap.com/static/img/coins/200x200/6841.png"
+              alt="phala logo"
+            />
           </button>
         )}
       </div>
