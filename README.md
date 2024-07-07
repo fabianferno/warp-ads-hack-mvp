@@ -1,4 +1,4 @@
-### WarpAds 
+### WarpAds - open ad protocol for farcaster
 
 WarpAds is an open display ads protocol for Farcaster, analogous to the prominence of Facebook ads. This innovative platform allows users to convert any existing Farcaster frames into a WarpAds Frame (an ad-embedded frame) and relay the frame requests to the original server without requiring any changes on the server. 
 
