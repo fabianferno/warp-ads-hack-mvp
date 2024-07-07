@@ -21,9 +21,37 @@ app.use(morgan("dev"));
 
 app.get("*", async (req: Request, res: Response) => {
 
-  console.log(req.path)
-  console.log(req.headers)
-  console.log(req.body)
+  const frame_data = {
+  untrustedData: {
+    fid: 2,
+    url: "https://fcpolls.com/polls/1",
+    messageHash: "0xd2b1ddc6c88e865a33cb1a565e0058d757042974",
+    timestamp: 1706243218,
+    network: 1,
+    buttonIndex: 2,
+    inputText: "hello world", // "" if requested and no input, undefined if input not requested
+    castId: {
+      fid: 226,
+      hash: "0xa48dd46161d8e57725f5e26e34ec19c13ff7f3b9",
+    },
+  },
+  trustedData: {
+    messageBytes: "d2b1ddc6c88e865a33cb1a565e0058d757042974...",
+  },
+};
+
+
+
+const options = {
+  method: 'POST',
+  headers: {Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI5YzNlOGIxYS0yZTI2LTRkNzUtOGQ0Yi1iMWRmNTUyOGJiYWEiLCJlbWFpbCI6ImZhYmlhbmZlcm5vQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImlkIjoiRlJBMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfSx7ImlkIjoiTllDMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiIxMGQ1OWM0ZTUxZDJmNDUyYWZiOCIsInNjb3BlZEtleVNlY3JldCI6IjQ2MzM2OTA1ZTNmYzQ0ZDI4N2M4YTIwYmFhYWU0NjBmZjZjMjIzOTI5OWI5MjA1MWEzMGY4ZWQ4YWQ4Njg0NWUiLCJpYXQiOjE3MTEwMTc2OTZ9._IUzsF1TY5FktV8Z0yN7Xc0UjcM9Mjh1r1DnqdHW3pU', 'Content-Type': 'application/json'},
+  body: '{"frame_id":"relayer","custom_id":"user_123","data":{"untrustedData":{"fid":2,"url":"https://fcpolls.com/polls/1","messageHash":"0xd2b1ddc6c88e865a33cb1a565e0058d757042974","timestamp":1706243218,"network":1,"buttonIndex":2,"inputText":"hello world","castId":{"fid":226,"hash":"0xa48dd46161d8e57725f5e26e34ec19c13ff7f3b9"}},"trustedData":{"messageBytes":"d2b1ddc6c88e865a33cb1a565e0058d757042974..."}}}'
+};
+
+fetch('https://api.pinata.cloud/farcaster/frames/interactions', options)
+  .then(response => response.json())
+  .then(response => console.log(response))
+  .catch(err => console.error(err));
 
 
   // const data = await getUserLabels('389273')
