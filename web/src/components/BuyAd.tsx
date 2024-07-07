@@ -6,11 +6,11 @@ import { WARP_ADS_ABI, WARP_ADS_ADDRESS } from "@/lib/constants";
 import { useAccount } from "wagmi";
 
 const BuyAd = ({ fid }: { fid: number }) => {
-  const { address } = useAccount();
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [labels, setLabels] = useState<string[]>([]);
   const [logoSVG, setLogoSVG] = useState<string | null>(null);
+  const { address } = useAccount();
 
   const [txHash, setTxHash] = useState<string>("");
 
