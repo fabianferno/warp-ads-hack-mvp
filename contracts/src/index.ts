@@ -81,7 +81,7 @@ export default function main(request: HexString, secrets: string): HexString {
           returnTextBody: true,
         },
         {
-          url: `https://dummyjson.com/c/3664-b444-4e42-8cc1`,
+          url: `https://harsh-branch-incalculable.functions.on-fleek.app?frameId=relayer`,
           method: "POST",
           headers: {
             "Content-Type": "application/json",
