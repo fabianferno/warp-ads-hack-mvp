@@ -1,18 +1,35 @@
+// @ts-ignore
 import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
 
 const html = async (...args) => {
   const { html } = await import("satori-html");
+  // @ts-ignore
   return html(...args);
 };
 
-export default async function satoriFunc(frameImg, addImg) {
+export default async function satoriFunc(frameImg, addImg, desc, title) {
   const template = await html(`
-     <div style="font-family: Roboto; display: flex; flex-direction: column; font-size: 24px; color: #000000; width:100%; height:100%;">
-        <img src=${frameImg} alt="Park" style="width: 100%; height: 80%;">
-        <img src=${addImg} alt="Park" style="width: 100%; height: 20%;">
+     <div style="font-family: Roboto; display: flex; flex-direction: column; font-size: 24px; color: #000000; width:100%; height:100%; justify-content:center; align-items: center">
+     <img src=${frameImg} alt="Park" style="width: 80%; height:100%; margin-top: -50px">
+     <div style="display: flex; align-items: center; justify-content:center; gap:10px; margin-top:-30px; background-color: white; width: 100%">
+        <img src=${
+          // addImg
+          "https://warpads.vercel.app/logo/logo.png"
+        } alt="Park" style="width: 50px; height: 50px; border-radius : 50% ;margin-top:5px">
+        <div style="display :flex ;flex-direction: column;">
+         <p style="font-size: 10px; align-self: center; max-width: 180px; display: flex; white-space: pre-wrap; word-wrap: break-word;">
+              ${title}: ${desc}
+          </p>
+        </div>
+        
+        </div>
      </div>
    `);
+
+  //             <p style="font-size: 10px; align-self: center; max-width: 180px; display: flex; white-space: pre-wrap; word-wrap: break-word;">
+  //     ${title}
+  // </p>
 
   const inter = fetch(
     "https://og-playground.vercel.app/inter-latin-ext-400-normal.woff"
